@@ -1,25 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 import { useIpData } from '~/hooks/useIpData';
-
 import IpInfoCard from '../components/IpInfoCard';
 
 export const IpTracker = () => {
 
-    const { ipData, loading, error } = useIpData();
+    const { ipData, loading, error, fetchIpData } = useIpData();
+    const [query, setQuery] = useState('');
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (query.trim() !== "") {
+            fetchIpData(query.trim());
+        }
+    };
+
 
     return (
-        <div className="ip-tracker">
-            <h2>Your IP Information</h2>
-            {ipData ? (
+        <main>
+            <form onSubmit={handleSearch} className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search for any IP address or domain"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+                <button type="submit">→</button>
+            </form>
+
+            {loading && <p>Loading...</p>}
+            {error && <p className="error">{error}</p>}
+            {ipData && !loading && (
                 <IpInfoCard
                     ip={ipData.ip}
                     isp={ipData.isp}
@@ -28,9 +39,7 @@ export const IpTracker = () => {
                     postalCode={ipData.location.postalCode}
                     timezone={ipData.location.timezone}
                 />
-            ) : (
-                <p>No IP data available.</p>
             )}
-        </div>
-    );
+        </main>
+    )
 };

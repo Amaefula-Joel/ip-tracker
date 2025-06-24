@@ -19,34 +19,44 @@ export const useIpData = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchIpData = async () => {
-            try {
-                // Step 1: Get IP
+    const fetchIpData = async (ipOrDomain?: string) => {
+        try {
+            setLoading(true);
+            setError(null);
+
+            // If an IP or domain is provided, use it; otherwise, fetch the user's IP
+            let ip = ipOrDomain;
+
+            if (!ip) {
                 const ipRes = await axios.get("https://api.ipify.org?format=json");
-                const userIp = ipRes.data.ip;
-
-                // Step 2: Get Location data
-                const geoRes = await axios.get(`https://geo.ipify.org/api/v2/country,city`, {
-                    params: {
-                        apiKey: import.meta.env.VITE_IPIFY_API_KEY,
-                        ipAddress: userIp
-                    }
-                });
-
-                // Step 3: Set IP data
-                setIpData(geoRes.data);
-            } catch (err) {
-                setError("Failed to fetch IP info");
-                console.error(err);
-            } finally {
-                setLoading(false);
+                ip = ipRes.data.ip;
             }
-        };
 
+            // Fetch location data using the IP or domain
+            const geoRes = await axios.get(`https://geo.ipify.org/api/v2/country,city`, {
+                params: {
+                    apiKey: import.meta.env.VITE_IPIFY_API_KEY,
+                    ipAddress: ipOrDomain?.includes(".") ? ip : undefined,
+                    domain: ipOrDomain?.includes(".") ? undefined : ipOrDomain
+                }
+            });
+
+            // Set the fetched IP data
+            setIpData(geoRes.data);
+
+        } catch (err) {
+            setError("Could not retrieve data for this input.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        // Fetch on first load
         fetchIpData();
     }, []);
 
     // Return the IP data, loading state, and error
-    return { ipData, loading, error };
+    return { ipData, loading, error, fetchIpData };
 }

@@ -3,8 +3,8 @@ import { IpTracker } from "../IpTracker/IpTracker";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Ip Tracker" },
+    { name: "description", content: "A web application that allows users to track IP addresses, view their geolocation, and display relevant information on an interactive map." },
   ];
 }
 
