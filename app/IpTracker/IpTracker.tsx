@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { useIpData } from '~/hooks/useIpData';
 import IpInfoCard from '../components/IpInfoCard';
+import MapView from '../components/MapView';
 
 export const IpTracker = () => {
 
@@ -31,15 +32,36 @@ export const IpTracker = () => {
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             {ipData && !loading && (
-                <IpInfoCard
-                    ip={ipData.ip}
-                    isp={ipData.isp}
-                    city={ipData.location.city}
-                    region={ipData.location.region}
-                    postalCode={ipData.location.postalCode}
-                    timezone={ipData.location.timezone}
-                />
+                <>
+                    <IpInfoCard
+                        ip={ipData.ip}
+                        isp={ipData.isp}
+                        city={ipData.location.city}
+                        region={ipData.location.region}
+                        postalCode={ipData.location.postalCode}
+                        timezone={ipData.location.timezone}
+                    />
+
+
+                    <MapView lat={ipData.location.lat} lng={ipData.location.lng} />
+                </>
             )}
+
+
+            {/* {ipData && !loading && (
+                <>
+                    <IpInfoCard
+                        ip={ipData.ip}
+                        isp={ipData.isp}
+                        city={ipData.location.city}
+                        region={ipData.location.region}
+                        postalCode={ipData.location.postalCode}
+                        timezone={ipData.location.timezone}
+                    />
+                    <MapView lat={ipData.location.lat} lng={ipData.location.lng} />
+                </>
+            )} */}
+
         </main>
     )
 };
