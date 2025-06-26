@@ -1,5 +1,6 @@
 // app/components/MapView.tsx
 import { useEffect, useState } from 'react';
+import blackMarker from './icon-location.svg';
 
 const MapView = ({ lat, lng }: { lat: number; lng: number }) => {
     const [MapComponent, setMapComponent] = useState<React.FC | null>(null);
@@ -13,7 +14,7 @@ const MapView = ({ lat, lng }: { lat: number; lng: number }) => {
             const iconShadow = await import('leaflet/dist/images/marker-shadow.png');
 
             const DefaultIcon = L.icon({
-                iconUrl: iconUrl.default,
+                iconUrl: blackMarker,
                 shadowUrl: iconShadow.default,
                 iconAnchor: [12, 41],
             });
