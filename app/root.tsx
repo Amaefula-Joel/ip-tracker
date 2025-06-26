@@ -8,7 +8,6 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-// import 'leaflet/dist/leaflet.css';
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -29,6 +28,10 @@ export const links: Route.LinksFunction = () => [
       "sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==",
     crossOrigin: "anonymous",
     referrerPolicy: "no-referrer",
+  },
+  {
+    rel: "icon",
+    href: "/favicon-32x32.png",
   },
 ];
 
