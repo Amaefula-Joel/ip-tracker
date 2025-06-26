@@ -32,12 +32,16 @@ export const useIpData = () => {
                 ip = ipRes.data.ip;
             }
 
+            const isIp = (value: string) =>
+                /^(\d{1,3}\.){3}\d{1,3}$/.test(value) || // IPv4
+                /^[a-fA-F0-9:]+$/.test(value);           // IPv6 (simple check)
+
             // Fetch location data using the IP or domain
             const geoRes = await axios.get(`https://geo.ipify.org/api/v2/country,city`, {
                 params: {
                     apiKey: import.meta.env.VITE_IPIFY_API_KEY,
-                    ipAddress: ipOrDomain?.includes(".") ? ip : undefined,
-                    domain: ipOrDomain?.includes(".") ? undefined : ipOrDomain
+                    ipAddress: ipOrDomain && isIp(ipOrDomain) ? ipOrDomain : undefined,
+                    domain: ipOrDomain && !isIp(ipOrDomain) ? ipOrDomain : undefined
                 }
             });
 
