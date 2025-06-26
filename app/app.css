@@ -19,3 +19,13 @@ body {
 *{
   font-family: 'Rubik', sans-serif;
 }
+
+.custom-map-container {
+  height: 400px;
+}
+
+@media (max-width: 640px) {
+  .custom-map-container {
+    height: 500px !important; /* or any value you want for small screens */
+  }
+}

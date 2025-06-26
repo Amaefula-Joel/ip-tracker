@@ -23,7 +23,7 @@ const MapView = ({ lat, lng }: { lat: number; lng: number }) => {
             L.Marker.prototype.options.icon = DefaultIcon;
 
             const DynamicMap = () => (
-                <MapContainer center={[lat, lng]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                <MapContainer center={[lat, lng]} className="custom-map-container" zoom={13} style={{ height: '400px', width: '100%' }}>
                     <TileLayer
                         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                         attribution='&copy; OpenStreetMap contributors'
